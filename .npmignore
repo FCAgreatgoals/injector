@@ -1,0 +1,5 @@
+node_modules/
+src/
+.eslintrc.json
+.gitlab-ci.yml
+tsconfig.json
