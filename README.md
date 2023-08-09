@@ -1,92 +1,189 @@
-# injector
+# `@fca.gg/injector`
 
+## Introduction
 
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin http://git.fca.gg/fca/injector.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](http://git.fca.gg/fca/injector/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+L'injection de dépendances est une technique qui permet d'externaliser la responsabilité de la gestion des dépendances d'une classe. `@fca.gg/injector` vous offre un conteneur pour gérer vos dépendances dans une application TypeScript, facilitant la modularité, les tests, et la réutilisation du code.
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+```
+npm install @fca.gg/injector
+```
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## API
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### Register
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Enregistre une dépendance dans le conteneur d'injection.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+```typescript
+Injector.register<T>(key: InjectableKey, value: T, options?: RegisterOptions<T>, ...args: Array<any>): void
+```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+### Resolve
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Récupère (ou crée) une instance de la dépendance associée à la clé donnée.
 
-## License
-For open source projects, say how it is licensed.
+```typescript
+Injector.resolve(key: InjectableKey, ...args: Array<any>): any
+```
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### Call
+
+Appelle une méthode sur une instance tout en injectant les dépendances nécessaires.
+
+```typescript
+Injector.call(target: any, methodName: string, ...args: Array<any>): any
+```
+
+### Unregister
+
+Supprime un dépendance du conteneur d'injection.
+
+```typescript
+Injector.unregister(key: InjectableKey): void
+```
+
+### Destroy
+
+Supprime toute les dépendances du conteneur d'injection.
+
+```typescript
+Injector.detroy(): void
+```
+
+## Décorateurs
+
+### `@Injectable`
+
+Enregistre la classe décorée dans le conteneur d'injection. (Appel Injector.register)
+
+#### Signature :
+```typescript
+@Injectable(options?: RegisterOptions<Class>, ...args: Array<any>)
+```
+
+**Exemple** :
+```typescript
+@Injectable()
+class MyClass {}
+```
+
+### `@Inject`
+
+Injectez des dépendances dans des classes, des propriétés, et des méthodes. Peut prendre une clé optionnelle. (Appel Injector.resolve)
+
+#### Signature :
+```typescript
+@Inject(key?: InjectableKey)
+```
+
+#### Exemples :
+
+##### Injection de class :
+
+1. **Avec @Inject sur la classe** :
+
+   *⚠️ Injectera uniquement les paramètres de la méthode dont le type est une classe lorsqu'elle est appelée avec Injector.resolve ⚠️*
+   ```typescript
+   @Inject()
+   class MaClasse {
+       constructor(monService: MonService) {}
+   }
+   ```
+
+2. **Avec @Inject sur les paramètres du constructeur** :
+   ```typescript
+   class MaClasse {
+       constructor(@Inject() monService: MonService) {}
+   }
+   ```
+
+3. **Avec une clé spécifique** :
+   ```typescript
+   class MaClasse {
+       constructor(@Inject('configToken') config: string) {}
+   }
+   ```
+
+##### Injection de propriété :
+
+1. **Injection standard** :
+   ```typescript
+   class MaClasse {
+       @Inject() 
+       private readonly monService: MonService
+   }
+   ```
+
+2. **Avec une clé spécifique** :
+   ```typescript
+   class MaClasse {
+       @Inject('configToken') 
+       private readonly config: string;
+   }
+   ```
+
+##### Injection de méthode :
+
+1. **Avec @Inject sur la méthode** :
+
+   *⚠️ Injectera uniquement les paramètres de la méthode dont le type est une classe lorsqu'elle est appelée avec Injector.call ⚠️*
+   ```typescript
+   class MaClasse {
+       @Inject()
+       public maMethode(monService: MonService) {}
+   }
+   ```
+
+2. **Avec @Inject sur les paramètres de la méthode** :
+   ```typescript
+   class MaClasse {
+       public maMethode(@Inject() monService: MonService) {}
+   }
+   ```
+
+3. **Avec une clé spécifique sur les paramètres de la méthode** :
+   ```typescript
+   class MaClasse {
+       maMethode(@Inject('configToken') config: string) {}
+   }
+   ```
+
+
+## Options avancées lors de l'enregistrement
+
+- **Singleton** : Si `true`, une seule instance de la dépendance est créée.
+- **Lazy Loading** : Si `true`, retarde la création de l'instance jusqu'à sa première demande.
+- **Factory** : Une fonction qui retourne une instance de la dépendance. Utile pour des créations complexes.
+- **Hooks de cycle de vie** : Des fonctions appelées lors de la création (`onCreate`) ou de la destruction (`onDestroy`) d'une instance.
+- **Validate** : Une fonction pour valider la dépendance avant son enregistrement.
+
+### Exemple complet :
+
+```typescript
+const hooks = {
+    onCreate: (instance) => console.log('Créé !'),
+    onDestroy: (instance) => console.log('Détruit !')
+};
+
+const factory = () => new MonService(/* args */);
+const validate = (value: any) => value !== null;
+
+Injector.register(MonService, MonService, {
+    singleton: true,
+    lazy: true,
+    factory: factory,
+    validate: validate,
+    hooks: hooks
+}, "arg1", "arg2")
+```
+
+## Bonnes pratiques
+
+1. **Clé unique** : Assurez-vous d'utiliser des clés uniques pour éviter les écrasements.
+2. **Ordre d'enregistrement** : Enregistrez les dépendances dans le bon ordre, en particulier si l'une dépend de l'autre.
+3. **Utilisez les hooks** : Pour gérer des actions spécifiques lors de la création ou de la destruction d'une instance.
+4. **Validation** : Utilisez la fonction de validation pour vous assurer que vos dépendances sont correctement formées avant de les enregistrer.
+
+---
