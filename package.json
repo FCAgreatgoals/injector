@@ -1,6 +1,6 @@
 {
   "name": "@fca.gg/injector",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "CID Library for Node.js",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
