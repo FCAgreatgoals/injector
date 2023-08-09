@@ -136,7 +136,7 @@ export default class Injector {
                     continue
                 }
 
-                dependencies.push(Injector.resolve(args.shift()))
+                dependencies.push(args.shift())
             }
         }
 
