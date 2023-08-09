@@ -95,7 +95,7 @@ export default class Injector {
         return instance
     }
 
-    public static call(target: any, methodName: string, ...args: Array<any>): () => any {
+    public static call(target: any, methodName: string, ...args: Array<any>): () => any | Promise<any> {
         if (!(methodName in target)) {
             throw new Error(`The method "${methodName}" does not exist on the provided target.`)
         }
