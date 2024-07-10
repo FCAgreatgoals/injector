@@ -105,7 +105,7 @@ export default class Injector {
         }
 
         const method = target[methodName]
-        const preparedArgs = Injector.buildMethodDependencies(target.constructor, methodName, args)
+        const preparedArgs = Injector.buildMethodDependencies(target, methodName, args)
 
         return method.apply(target, preparedArgs)
     }
@@ -113,9 +113,10 @@ export default class Injector {
     private static buildMethodDependencies(target: any, property: string, args: Array<any>): Array<any> {
         const dependencies: Array<any> = []
         const methodParameters = (property === 'constructor'
-            ? Reflect.getMetadata(MetadataKeys.InjectorMethodsTypes, target)
-            : Reflect.getMetadata(MetadataKeys.InjectorMethodsTypes, target, property)) || []
-        const listParameters = Reflect.getMetadata(MetadataKeys.InjectorParametersTypes, target, property) || {}
+            ? Reflect.getMetadata(MetadataKeys.InjectorMethodsTypes, target.constructor) || Reflect.getMetadata('design:paramtypes', target)
+            : Reflect.getMetadata(MetadataKeys.InjectorMethodsTypes, target.constructor, property) || Reflect.getMetadata('design:paramtypes', target, property)
+        ) || []
+        const listParameters = Reflect.getMetadata(MetadataKeys.InjectorParametersTypes, target.constructor, property) || {}
 
         if (methodParameters.length > 0) {
             methodParameters.map((value: any) => {
@@ -126,7 +127,7 @@ export default class Injector {
         }
 
         if (Object.keys(listParameters).length > 0) {
-            const length = Reflect.getMetadata(MetadataKeys.InjectorParametersNumber, target, property)
+            const length = Reflect.getMetadata(MetadataKeys.InjectorParametersNumber, target.constructor, property)
             if ((Object.keys(listParameters).length + args.length) !== length)
                 throw new Error('The number of arguments provided does not match the number of parameters of the constructor.')
 
