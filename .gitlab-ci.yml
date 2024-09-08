@@ -44,4 +44,4 @@ publish:
     dependencies:
         - build
     script:
-        - npm publish --access public
+        - npm publish --access private
