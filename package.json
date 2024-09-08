@@ -1,6 +1,6 @@
 {
   "name": "@fca.gg/injector",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "CID Library for Node.js",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -27,9 +27,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@192.168.9.110:fca/injector.git",
-    "homepage": "https://git.fca.gg/fca/injector",
-    "bugs": "https://git.fca.gg/fca/injector/issues"
+    "url": "git@gitlab.fca:fca/injector.git",
+    "homepage": "https://gitlab.fca/fca/injector",
+    "bugs": "https://gitlab.fca/fca/injector/issues"
   },
   "publishConfig": {
     "access": "restricted"

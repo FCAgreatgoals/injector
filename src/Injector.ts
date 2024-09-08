@@ -118,14 +118,6 @@ export default class Injector {
         ) || []
         const listParameters = Reflect.getMetadata(MetadataKeys.InjectorParametersTypes, target.constructor, property) || {}
 
-        if (methodParameters.length > 0) {
-            methodParameters.map((value: any) => {
-                if (Injector.isClass(value)) return dependencies.push(Injector.resolve(value))
-
-                return dependencies.push(args.shift())
-            })
-        }
-
         if (Object.keys(listParameters).length > 0) {
             const length = Reflect.getMetadata(MetadataKeys.InjectorParametersNumber, target.constructor, property)
             if ((Object.keys(listParameters).length + args.length) !== length)
@@ -139,6 +131,14 @@ export default class Injector {
 
                 dependencies.push(args.shift())
             }
+        }
+
+        if (methodParameters.length > 0) {
+            methodParameters.map((value: any) => {
+                if (Injector.isClass(value) && !(args[0] instanceof value)) return dependencies.push(Injector.resolve(value))
+
+                return dependencies.push(args.shift())
+            })
         }
 
         return dependencies
