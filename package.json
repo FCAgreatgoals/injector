@@ -27,13 +27,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.fca:fca/injector.git",
-    "homepage": "https://gitlab.fca/fca/injector",
-    "bugs": "https://gitlab.fca/fca/injector/issues"
+    "url": "git@github.com:FCAgreatgoals/injector.git",
+    "homepage": "https://github.com/FCAgreatgoals/injector",
+    "bugs": "https://github.com/FCAgreatgoals/injector/issues"
   },
   "publishConfig": {
     "access": "restricted"
   },
   "author": "FCA <developpment@fca.gg> (https://fca.gg/)",
-  "license": "UNLICENSED"
+  "license": "AGPL-3.0"
 }
